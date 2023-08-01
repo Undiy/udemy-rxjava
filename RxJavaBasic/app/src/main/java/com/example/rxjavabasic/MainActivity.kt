@@ -295,21 +295,29 @@ class MainActivity : AppCompatActivity() {
 //        coldObservable().subscribe(coldObserver())
 
 
-        val hotObservable = hotObservable()
-        compositeDisposable.add(
-            hotObservable.subscribe(
-                {
-                    Log.d(TAG, "onNext: $it")
-                },
-                {
-                    Log.d(TAG, "onError ${it.toString()}")
-                },
-                {
-                    Log.d(TAG, "onComplete")
-                }
-            )
-        )
-        hotObservable.connect()
+//        val hotObservable = hotObservable()
+//        compositeDisposable.add(
+//            hotObservable.subscribe(
+//                {
+//                    Log.d(TAG, "onNext: $it")
+//                },
+//                {
+//                    Log.d(TAG, "onError ${it.toString()}")
+//                },
+//                {
+//                    Log.d(TAG, "onComplete")
+//                }
+//            )
+//        )
+//        hotObservable.connect()
+
+//        asyncSubject()
+//        asyncSubject2()
+//        behaviorSubject()
+//        publishSubject()
+//        publishSubject2()
+//        replaySubject()
+        replaySubject2()
     }
 
     override fun onDestroy() {
