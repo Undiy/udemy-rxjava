@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import com.example.rxjavabasic.data.User
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.observables.GroupedObservable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -248,25 +250,69 @@ class MainActivity : AppCompatActivity() {
 //            }
 //        )
 
+//        compositeDisposable.add(
+//            createObservable()
+//                .subscribeOn(Schedulers.io())
+//                .subscribe(
+//                    {
+//                        Log.d(TAG, "onNext: $it")
+//                    },
+//                    {
+//                        Log.d(TAG, "onError ${it.toString()}")
+//                    },
+//                    {
+//                        Log.d(TAG, "onComplete")
+//                    }
+//                )
+//        )
+
+//        compositeDisposable.add(
+//            Observable.just(mUserList)
+//                .flatMap{
+//                    Log.d(TAG, "Upstream threadName: ${Thread.currentThread().name}")
+//                    Observable.fromIterable(it)
+//                }
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(
+//                    {
+//                        Log.d(TAG, "onNext: $it, threadName: ${Thread.currentThread().name}")
+//                    },
+//                    {
+//                        Log.d(TAG, "onError ${it.toString()}")
+//                    },
+//                    {
+//                        Log.d(TAG, "onComplete")
+//                    }
+//                )
+//
+//        )
+
+//        coldObservable().subscribe(coldObserver())
+//        Thread.sleep(200)
+//        coldObservable().subscribe(coldObserver())
+//        Thread.sleep(200)
+//        coldObservable().subscribe(coldObserver())
+
+
+        val hotObservable = hotObservable()
         compositeDisposable.add(
-            createObservable()
-                .subscribeOn(Schedulers.io())
-                .subscribe(
-                    {
-                        Log.d(TAG, "onNext: $it")
-                    },
-                    {
-                        Log.d(TAG, "onError ${it.toString()}")
-                    },
-                    {
-                        Log.d(TAG, "onComplete")
-                    }
-                )
+            hotObservable.subscribe(
+                {
+                    Log.d(TAG, "onNext: $it")
+                },
+                {
+                    Log.d(TAG, "onError ${it.toString()}")
+                },
+                {
+                    Log.d(TAG, "onComplete")
+                }
+            )
         )
+        hotObservable.connect()
     }
 
     override fun onDestroy() {
-        Log.d(TAG, "onDestroy0")
         compositeDisposable.clear()
         Log.d(TAG, "onDestroy")
         super.onDestroy()
